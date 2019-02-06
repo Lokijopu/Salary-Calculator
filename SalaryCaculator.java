@@ -31,14 +31,19 @@ public class SalaryCaculator {
 		annSal.setBounds(200, 120, 125, 25);
 		myFrame.add(annSal);
 		
-		JTextField nameTxtFld =  new JTextField();
-		nameTxtFld.setBounds(125, 30, 100, 30);
-		myFrame.add(nameTxtFld);
-
-		JTextField phoneTxtFld =  new JTextField();
-		phoneTxtFld.setBounds(125, 60, 100, 30);
-		myFrame.add(phoneTxtFld);
+		JTextField rtTxtFld =  new JTextField();
+		rtTxtFld.setBounds(125, 30, 100, 30);
+		myFrame.add(rtTxtFld);
 		
+		JTextField hrsTxtFld =  new JTextField();
+		hrsTxtFld.setBounds(125, 60, 100, 30);
+		myFrame.add(hrsTxtFld);
+		hrsTxtFld.add(new KeyListener() {
+			public void keyPressed(KeyEvent e)  {
+				if (hrsTxtFld.getText().length() > 0)
+				fullTime.isSelected() = false;
+			}
+		});
 		JCheckBox fullTime = new JCheckBox("Full Time");
 		fullTime.setBounds(40, 90, 125, 25);
 		myFrame.add(fullTime);
@@ -46,7 +51,41 @@ public class SalaryCaculator {
 		JButton calc = new JButton("Calculate");
 		calc.setBounds(40, 120, 125, 25);
 		myFrame.add(calc);
-
+		calc.add(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				String str1 = rtTxtFld.getText();
+				String str2 = hrsTxtFld.getText();
+				if (fullTime.isSelected()) { 
+					if (str1.length() > 0) {
+						if (isNumeric(str1)) {
+							double rt = Double.parseDouble(str1);
+							double total = rt * 40;
+							annSal.setText("Annual Salary: $" + Double.toString(total));
+						}
+					}
+				} else {
+					if (str1.length() > 0 && str2.length() > 0) {
+						if (isNumeric(str1) && isNumeric(str2)) {
+							double rt = Double.parseDouble(str1);
+							double hrs = Double.parseDouble(str2);
+							double total = rt * hrs;
+							annSal.setText("Annual Salary: $" + Double.toString(total));
+						}
+					}
+				}
+			}
+		});
+		
+		public static boolean isNumeric(String str) {  
+  			try {  
+   				double d = Double.parseDouble(str);  
+  			}  
+  			catch(NumberFormatException nfe) {  
+    				return false;  
+  			}  
+  			return true;  
+		}
+		
 		myFrame.setVisible(true);
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
