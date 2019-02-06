@@ -60,7 +60,8 @@ public class SalaryCaculator {
 						if (isNumeric(str1)) {
 							double rt = Double.parseDouble(str1);
 							double total = rt * 40;
-							annSal.setText("Annual Salary: $" + Double.toString(total));
+							String result = String.format("%.2f", total);
+							annSal.setText("Annual Salary: $" + result);
 						}
 					}
 				} else {
@@ -69,7 +70,8 @@ public class SalaryCaculator {
 							double rt = Double.parseDouble(str1);
 							double hrs = Double.parseDouble(str2);
 							double total = rt * hrs;
-							annSal.setText("Annual Salary: $" + Double.toString(total));
+							String result2 = String.format("%.2f", total);
+							annSal.setText("Annual Salary: $" + result2);
 						}
 					}
 				}
