@@ -2,6 +2,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,7 +29,7 @@ public class SalaryCaculator {
 		myFrame.add(hrsLbl);
 		
 		JLabel annSal = new JLabel("Annual Salary: $");
-		annSal.setBounds(200, 120, 125, 25);
+		annSal.setBounds(200, 120, 250, 25);
 		myFrame.add(annSal);
 		
 		JTextField rtTxtFld =  new JTextField();
@@ -38,55 +39,53 @@ public class SalaryCaculator {
 		JTextField hrsTxtFld =  new JTextField();
 		hrsTxtFld.setBounds(125, 60, 100, 30);
 		myFrame.add(hrsTxtFld);
-		hrsTxtFld.add(new KeyListener() {
-			public void keyPressed(KeyEvent e)  {
-				if (hrsTxtFld.getText().length() > 0)
-				fullTime.isSelected() = false;
+	
+		JCheckBox fullTime = new JCheckBox("Full Time");
+		fullTime.setBounds(40, 90, 125, 30);
+		myFrame.add(fullTime);
+		fullTime.addKeyListener (new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				fullTime.setSelected(false);
+			}
+			public void keyReleased(KeyEvent e) {
+				fullTime.setSelected(false);
+			}
+			public void keyTyped(KeyEvent e) {
+				fullTime.setSelected(false);
 			}
 		});
-		JCheckBox fullTime = new JCheckBox("Full Time");
-		fullTime.setBounds(40, 90, 125, 25);
-		myFrame.add(fullTime);
-		
+		fullTime.addActionListener((new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fullTime.isSelected()) {
+					hrsTxtFld.setText("");
+				}
+			}
+		}));
 		JButton calc = new JButton("Calculate");
 		calc.setBounds(40, 120, 125, 25);
 		myFrame.add(calc);
-		calc.add(new ActionListener() {
+		calc.addActionListener(new ActionListener() {
 			public void actionPerformed (ActionEvent e) {
 				String str1 = rtTxtFld.getText();
 				String str2 = hrsTxtFld.getText();
 				if (fullTime.isSelected()) { 
 					if (str1.length() > 0) {
-						if (isNumeric(str1)) {
 							double rt = Double.parseDouble(str1);
-							double total = rt * 40;
+							double total = rt * 40 * 52;
 							String result = String.format("%.2f", total);
 							annSal.setText("Annual Salary: $" + result);
-						}
 					}
 				} else {
 					if (str1.length() > 0 && str2.length() > 0) {
-						if (isNumeric(str1) && isNumeric(str2)) {
 							double rt = Double.parseDouble(str1);
 							double hrs = Double.parseDouble(str2);
-							double total = rt * hrs;
+							double total = rt * hrs * 52;
 							String result2 = String.format("%.2f", total);
 							annSal.setText("Annual Salary: $" + result2);
-						}
 					}
 				}
 			}
 		});
-		
-		public static boolean isNumeric(String str) {  
-  			try {  
-   				double d = Double.parseDouble(str);  
-  			}  
-  			catch(NumberFormatException nfe) {  
-    				return false;  
-  			}  
-  			return true;  
-		}
 		
 		myFrame.setVisible(true);
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
